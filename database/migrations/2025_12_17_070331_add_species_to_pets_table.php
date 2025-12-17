@@ -6,23 +6,20 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
-        Schema::table('pets', function (Blueprint $table) {
-            //
-        });
+        // IMPORTANT: SQLite-safe guard
+        if (Schema::hasColumn('appointments', 'species')) {
+            Schema::table('appointments', function (Blueprint $table) {
+                $table->dropColumn('species');
+            });
+        }
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::table('pets', function (Blueprint $table) {
-            //
+        Schema::table('appointments', function (Blueprint $table) {
+            $table->string('species')->nullable();
         });
     }
 };
